@@ -1,7 +1,7 @@
 # rookie-learning
 
 #### Description
-菜鸟学习
+rookie learning
 
 #### Software Architecture
 Software architecture description
