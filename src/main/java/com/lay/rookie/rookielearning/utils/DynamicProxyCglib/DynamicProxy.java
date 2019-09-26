@@ -2,7 +2,10 @@ package com.example.demo.cglib;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -25,7 +28,7 @@ public class DynamicProxy {
 	/**
 	 * 	保存处理有返回值的方法后的结果
 	 */
-	public static Object result;
+	public Map<String, Object> result = new HashMap<String, Object>();
 	
 	// 前置处理器链
 	public List<ProxyProcessing> preprocessingChain = new ArrayList<>();
@@ -63,13 +66,13 @@ public class DynamicProxy {
 				// 执行目标方法
 				Object invokeSuper = methodProxy.invokeSuper(obj, args);
 				
-				
 				// 后置处理链afterpreprocessingchain
 				afterpreprocessingChain.forEach(afterProcessing -> {
 					if(afterProcessing != null) {
 						if(invokeSuper != null) {
-							Function<Object, Object> doAfterProcessing = afterProcessing.doFunctionProcessing();
-							result = doAfterProcessing.apply(invokeSuper);
+							Map<String, Function<Object, Object>> doFunctionProcessing = afterProcessing.doFunctionProcessing();
+							Entry<String, Function<Object, Object>> next = doFunctionProcessing.entrySet().iterator().next();
+							result.put(next.getKey(), next.getValue().apply(invokeSuper));
 						}
 					}
 				});
@@ -125,17 +128,26 @@ public class DynamicProxy {
 		}).addAfterProcessing(new ProxyProcessing() {
 			
 			@Override
-			public Function<Object, Object> doFunctionProcessing() {
+			public Map<String, Function<Object, Object>> doFunctionProcessing() {
 				System.out.println("----doFunctionProcessing...");
-				return t->((Integer)t+1);
+				
+				HashMap<String, Function<Object, Object>> hashMap = new HashMap<>();
+				hashMap.put("key", new Function<Object, Object>() {
+
+					@Override
+					public Object apply(Object t) {
+						return t = (Integer)t + 100;
+					}
+				});
+				return hashMap;
 			}
 		}).getProxyInstance();
 
 		// 执行代理方法
 		proxy.save();
-		Integer add = proxy.add("1", 2);
+		Integer add = proxy.add("1", 1);
 		System.out.println(add);
-		System.out.println(result);
+		System.out.println(proxyCglib.result);
 	}
 	
 //	执行结果：
@@ -153,5 +165,5 @@ public class DynamicProxy {
 //	add...
 //	----doFunctionProcessing...
 //	1
-//	2
+//	{key=101}
 }

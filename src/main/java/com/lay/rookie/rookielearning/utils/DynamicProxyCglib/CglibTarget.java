@@ -12,6 +12,6 @@ public class CglibTarget {
 	
 	public Integer add(String one, Integer two) {
 		System.out.println("add...");
-		return 1;
+		return two;
 	}
 }
