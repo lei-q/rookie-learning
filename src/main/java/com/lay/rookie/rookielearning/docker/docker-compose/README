@@ -1,0 +1,25 @@
+# 离线安装docker-compose
+
+# 首先，联网下载脚本文件https://github.com/docker/compose/releases/download/1.8.0/run.sh
+#拉取docker/compose镜像
+[host]# docker pull docker/compose:1.8.0
+# 查看镜像
+[host]# docker images
+#镜像导出
+[host]# docker save -o docker-compose.tar docker/compose:1.8.0
+
+# 此时获得两个离线文件：run.sh、docker-compose.tar
+
+# 将上述文件拷贝到需要安装docker-compose的机器上
+
+#导入镜像
+[host]# docker load -i docker-compose.tar
+
+# 拷贝run.sh文件到/usr/local/bin/目录下 & 修改名称为 docker-compose
+# 增加执行权限
+[host]# chmod +x docker-compose
+# 执行
+[host]# docker-compose
+# 实际是拉取docker/compose镜像并运行，完成后显示docker-compose帮助列表，即安装成功
+# 查看docker-compose版本
+[host]# docker-compose -version
