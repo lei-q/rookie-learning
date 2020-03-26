@@ -6,14 +6,14 @@
 # 查看镜像
 [host]# docker images
 #镜像导出
-[host]# docker save -o docker-compose.tar docker/compose:1.8.0
+[host]# docker save docker/compose > docker-compose.jar
 
 # 此时获得两个离线文件：run.sh、docker-compose.tar
 
 # 将上述文件拷贝到需要安装docker-compose的机器上
 
 #导入镜像
-[host]# docker load -i docker-compose.tar
+[host]# docker load < docker-compose.tar
 
 # 拷贝run.sh文件到/usr/local/bin/目录下 & 修改名称为 docker-compose
 # 增加执行权限
