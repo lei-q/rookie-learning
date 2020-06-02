@@ -77,7 +77,7 @@ public class Dom4jHandler {
             }
 
             // 复杂类型 的处理
-            if (!(propertyType.isPrimitive() || isSimpleType(propertyType))) {
+            if (!isSimpleType(propertyType)) {
                 // 集合处理
                 if (propertyType.isAssignableFrom(List.class)) {
                     List list = (List) o;
@@ -222,7 +222,7 @@ public class Dom4jHandler {
 
                 if (element.getName().equalsIgnoreCase(descriptor.getName())) {
                     // 复杂类型 的处理
-                    if (!(propertyType.isPrimitive() || isSimpleType(propertyType))) {
+                    if (!isSimpleType(propertyType)) {
                         // List集合处理
                         if (propertyType.isAssignableFrom(List.class)) {
                             // 获取返回值类型
