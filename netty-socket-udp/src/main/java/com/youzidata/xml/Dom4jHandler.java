@@ -287,9 +287,11 @@ public class Dom4jHandler {
             } else if (propertyType.isAssignableFrom(Boolean.class) || propertyType.isAssignableFrom(boolean.class)) {
                 value = Boolean.parseBoolean(eleValue);
             } else if (propertyType.isAssignableFrom(Byte.class) || propertyType.isAssignableFrom(byte.class)) {
-                value = Boolean.parseBoolean(eleValue);
+                value = Byte.parseByte(eleValue);
             } else if (propertyType.isAssignableFrom(Short.class) || propertyType.isAssignableFrom(short.class)) {
-                value = Boolean.parseBoolean(eleValue);
+                value = Short.parseShort(eleValue);
+            } else if (propertyType.isAssignableFrom(Character.class) || propertyType.isAssignableFrom(char.class)) {
+                value = eleValue.charAt(0);
             } else {
                 value = eleValue + "";
             }
@@ -307,10 +309,15 @@ public class Dom4jHandler {
      */
     public static boolean isSimpleType(Class<?> type) {
 
-        return type.isAssignableFrom(Integer.class) || type.isAssignableFrom(Integer.class) ||
-                type.isAssignableFrom(Long.class) || type.isAssignableFrom(Double.class) ||
-                type.isAssignableFrom(Float.class) || type.isAssignableFrom(Boolean.class) ||
-                type.isAssignableFrom(Byte.class) || type.isAssignableFrom(Short.class) ||
+        return type.isAssignableFrom(Integer.class) || type.isAssignableFrom(int.class) ||
+                type.isAssignableFrom(Long.class) || type.isAssignableFrom(long.class) ||
+                type.isAssignableFrom(Double.class) || type.isAssignableFrom(double.class) ||
+                type.isAssignableFrom(Float.class) || type.isAssignableFrom(float.class) ||
+                type.isAssignableFrom(Boolean.class) || type.isAssignableFrom(boolean.class) ||
+                type.isAssignableFrom(Byte.class) || type.isAssignableFrom(byte.class) ||
+                type.isAssignableFrom(Short.class) || type.isAssignableFrom(short.class) ||
+                type.isAssignableFrom(Character.class) || type.isAssignableFrom(char.class) ||
+                type.isAssignableFrom(Void.class) || type.isAssignableFrom(void.class) ||
                 type.isAssignableFrom(String.class);
     }
 
